@@ -274,7 +274,7 @@
             </div>
             <button class="btn-main" onclick="doLogin()" style="width:100%;margin-top:20px">Autorizar Sistema</button>
             <div style="margin-top:25px; padding-top:15px; border-top:1px solid var(--panel-border); font-size:12px; color:#777">
-                <p>Criptografia Local Ativa</p>
+                <p>Criptografia End-to-End Ativa</p>
                 <p style="margin-top:5px; font-weight:500">v4.0.2 • ILUSION OS</p>
             </div>
         </div>
@@ -298,7 +298,7 @@
 
     <div class="main-container">
         <div class="console-wrapper" id="main-console">
-            <div style="color:var(--primary);opacity:0.6">[SISTEMA] Ilusion OS v4.0.2 Local Host Mode.</div>
+            <div style="color:var(--primary);opacity:0.6">[SISTEMA] Ilusion OS v4.0.2 Inicializado. Aguardando Autenticação...</div>
         </div>
 
         <div class="main-content" id="main-content-area">
@@ -322,7 +322,7 @@
                 <h1>Rede Conectada</h1>
                 <div class="status-box">
                     <table>
-                        <thead><tr><th>Nome</th><th>ID</th><th>Dono</th></tr></thead>
+                        <thead><tr><th>Nome do Servidor</th><th>ID do Servidor</th><th>ID do Dono</th></tr></thead>
                         <tbody id="body-guilds"></tbody>
                     </table>
                     <button class="btn-action" onclick="loadGuilds()" style="margin-top:25px">Atualizar Rede</button>
@@ -332,15 +332,17 @@
             <div id="tab-reentry" class="tab-content">
                 <h1>Protocolo de Re-entry</h1>
                 <div class="status-box">
-                    <label>ID DO SERVIDOR</label>
+                    <label>ID DO SERVIDOR EXPULSO</label>
                     <input type="text" id="reentry-guild-id" placeholder="ID do Servidor">
-                    <button class="btn-action" onclick="recuperarAcesso()" style="width:100%">Recuperar e Entrar</button>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-action" onclick="recuperarAcesso()" style="flex:1">Recuperar e Entrar</button>
+                    </div>
                     <div id="reentry-result" style="margin-top:20px; text-align:center;"></div>
                 </div>
             </div>
 
             <div id="tab-templates" class="tab-content">
-                <h1>Templates</h1>
+                <h1>Cofre de Templates</h1>
                 <div class="status-box">
                     <label>ID DO SERVIDOR FONTE</label>
                     <div style="display:flex;gap:15px">
@@ -357,141 +359,188 @@
             <div id="tab-unban" class="tab-content">
                 <h1>Revogar Banimentos</h1>
                 <div class="status-box">
-                    <label>ID SERVIDOR</label><input type="text" id="unban-guild-id">
-                    <button class="btn-action" onclick="requestUnban()" style="width:100%">Executar</button>
+                    <label>ID DO SERVIDOR</label><input type="text" id="unban-guild-id" placeholder="ID do Servidor">
+                    <label>ID DO USUÁRIO (Vazio para Todos)</label><input type="text" id="unban-user-id" placeholder="ID do Alvo">
+                    <button class="btn-action" onclick="requestUnban()" style="width:100%;margin-top:15px">Executar Perdão</button>
                 </div>
             </div>
 
             <div id="tab-limpeza" class="tab-content">
-                <h1>Limpeza</h1>
+                <h1>Protocolos de Limpeza</h1>
                 <div class="status-box">
-                    <input type="text" id="purge-target-id" placeholder="ID do Servidor">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                        <button class="btn-action btn-danger" onclick="enviar('apagarcanais')">Canais</button>
-                        <button class="btn-action btn-danger" onclick="enviar('apagarcargos')">Cargos</button>
+                    <label>ALVO ESPECÍFICO</label><input type="text" id="purge-target-id" placeholder="ID do Servidor">
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:20px">
+                        <button class="btn-action btn-danger" onclick="enviar('apagarcanais')">Limpar Canais</button>
+                        <button class="btn-action btn-danger" onclick="enviar('apagarcargos')">Limpar Cargos</button>
+                        <button class="btn-action btn-danger" onclick="enviar('banir-todos')">Banir Todos</button>
+                        <button class="btn-action" onclick="enviar('renomear')">Renomear Todos</button>
                     </div>
                 </div>
             </div>
 
             <div id="tab-membros" class="tab-content">
-                <h1>Privilégios</h1>
+                <h1>Escalação de Privilégios</h1>
                 <div class="status-box">
-                    <input type="text" id="admin-guild-id" placeholder="ID">
-                    <button class="btn-action" onclick="enviarAdmin()">Admin</button>
+                    <label>ID DO SERVIDOR</label><input type="text" id="admin-guild-id" placeholder="ID do Servidor">
+                    <button class="btn-action" onclick="enviarAdmin()" style="width:100%;margin-top:15px">Me dar Administrador</button>
                 </div>
             </div>
 
             <div id="tab-cargos" class="tab-content">
-                <h1>Gestão de Cargos</h1>
+                <h1>Manipulação de Cargos</h1>
                 <div class="status-box">
-                    <p>Módulo de cargos ativo.</p>
+                    <label>ID DO SERVIDOR</label><input type="text" id="role-guild-id" placeholder="ID do Servidor">
+                    <label>NOME DO CARGO / ID USUÁRIO</label>
+                    <input type="text" id="role-name-input" placeholder="Nome do Cargo">
+                    <input type="text" id="role-user-id" placeholder="ID do Usuário (apenas para Atribuir)">
+                    <div style="display:flex;gap:10px;margin-top:10px">
+                        <button class="btn-action" onclick="roleAction('criar')" style="flex:1">Criar Cargo Admin</button>
+                        <button class="btn-action" onclick="roleAction('setar')" style="flex:1">Atribuir a Usuário</button>
+                    </div>
                 </div>
             </div>
 
             <div id="tab-edit-msg" class="tab-content">
-                <h1>Mensagem</h1>
+                <h1>Customização de Payload</h1>
                 <div class="status-box">
-                    <textarea id="raid-msg-content" rows="5" placeholder="Digite a mensagem do raid aqui..."></textarea>
-                    <button class="btn-action" onclick="updateMessageConfig()">Salvar</button>
+                    <label>MENSAGEM DE TRANSMISSÃO</label>
+                    <textarea id="raid-msg-content" rows="8" placeholder="Ex: @everyone RAIDED BY ILUSION..."></textarea>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-action" onclick="updateMessageConfig()" style="flex:2">Salvar Payload</button>
+                        <button class="btn-action btn-danger" onclick="resetMessageConfig()" style="flex:1">Resetar</button>
+                    </div>
                 </div>
             </div>
 
             <div id="tab-console-full" class="tab-content">
-                <h1>Terminal</h1>
-                <div id="full-console-logs" style="background:#000;height:400px;overflow:auto;padding:15px;border:1px solid var(--primary);font-family:monospace"></div>
+                <h1>Terminal Mestre</h1>
+                <div class="status-box" style="background:#000;height:450px;overflow-y:auto;font-family:'JetBrains Mono',monospace;border:1px solid var(--primary);padding:20px" id="full-console-logs"></div>
+                <button class="btn-action btn-danger" style="margin-top:20px" onclick="document.getElementById('full-console-logs').innerHTML=''">Limpar Terminal</button>
             </div>
         </div>
     </div>
 
     <script>
-        // MANTENHA O IP DO SERVIDOR QUE ESTÁ RODANDO A API
-        // Se estiver acessando de fora, use o IP público. Se for local, use 127.0.0.1
-        const API_BASE = "http://51.222.156.246:7001"; 
+        // --- CONFIGURAÇÃO ---
+        const API_BASE = "http://51.222.156.246:7001";
         let myID = localStorage.getItem('ilusion_id') || "";
 
+        // Inicialização
         window.onload = () => {
             if(myID) {
                 document.getElementById('login-page').style.display = 'none';
-                writeConsole("Sessão iniciada: " + myID);
+                writeConsole("Sessão restaurada para ID: " + myID);
                 loadGuilds();
             }
             checkApiStatus();
         };
 
-        document.getElementById('pass').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                doLogin();
-            }
-        });
-
         async function checkApiStatus() {
             try {
-                await fetch(`${API_BASE}/api/get-config`, { signal: AbortSignal.timeout(2000) });
+                const res = await fetch(`${API_BASE}/api/get-config`, { signal: AbortSignal.timeout(3000) });
                 document.getElementById('connection-error').classList.remove('show');
             } catch(e) {
                 document.getElementById('connection-error').classList.add('show');
             }
-            setTimeout(checkApiStatus, 5000);
+            setTimeout(checkApiStatus, 10000);
         }
 
         function writeConsole(msg, status = "INFO") {
             const time = new Date().toLocaleTimeString();
-            let color = status === 'ERRO' ? 'var(--danger)' : 'var(--success)';
-            const log = `<div><span style="color:var(--primary)">[${time}]</span> <span style="color:${color}">${status}:</span> ${msg}</div>`;
+            let color = 'var(--success)';
+            if(status === 'ERRO') color = 'var(--danger)';
+            if(status === 'NOTIFICAR') color = 'var(--secondary)';
             
-            const mainC = document.getElementById('main-console');
-            const fullC = document.getElementById('full-console-logs');
+            const logHTML = `<div><span style="color:var(--primary)">[${time}]</span> <span style="color: ${color}">${status}:</span> ${msg}</div>`;
             
-            if(mainC) mainC.innerHTML += log;
-            if(fullC) fullC.innerHTML += log;
-            
-            if(mainC) mainC.scrollTop = mainC.scrollHeight;
+            const consoles = [document.getElementById('main-console'), document.getElementById('full-console-logs')];
+            consoles.forEach(el => {
+                if(el) {
+                    const isScrolledToBottom = el.scrollHeight - el.clientHeight <= el.scrollTop + 1;
+                    el.innerHTML += logHTML;
+                    if (isScrolledToBottom) el.scrollTop = el.scrollHeight;
+                }
+            });
         }
 
-        function showNotify(msg, type = 'success') {
+        function showNotify(message, type = 'success') {
             const container = document.getElementById('notification-container');
-            const t = document.createElement('div');
-            t.className = 'notification';
-            if(type==='error') t.style.borderLeftColor = 'var(--danger)';
-            t.innerHTML = `<span>${msg}</span>`;
-            container.appendChild(t);
-            setTimeout(() => t.remove(), 3000);
-            writeConsole(msg, type === 'error' ? 'ERRO' : 'INFO');
+            const toast = document.createElement('div'); 
+            toast.className = `notification`;
+            if(type === 'error') toast.style.borderLeftColor = 'var(--danger)';
+            toast.innerHTML = `<span style="font-weight:700;">${message}</span><span style="cursor:pointer;margin-left:20px;" onclick="this.parentElement.remove()">✕</span>`;
+            container.appendChild(toast); 
+            setTimeout(() => { if(toast.parentNode) toast.remove(); }, 4000);
+            writeConsole(message, type === 'error' ? 'ERRO' : 'NOTIFICAR');
         }
 
         async function doLogin() {
-            const id = document.getElementById('id-disc').value;
-            const senha = document.getElementById('pass').value;
-            if(!id || !senha) return showNotify("Preencha todos os campos", "error");
+            const id = document.getElementById('id-disc').value.trim();
+            const senha = document.getElementById('pass').value.trim();
             
+            if(!id || !senha) return showNotify("Preencha todos os campos", "error");
+
             try {
                 const res = await fetch(`${API_BASE}/api/login`, {
-                    method: 'POST',
+                    method: 'POST', 
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({id, senha})
                 });
+                
                 if(res.ok) {
-                    myID = id;
+                    myID = id; 
                     localStorage.setItem('ilusion_id', id);
                     document.getElementById('login-page').style.display = 'none';
-                    showNotify("AUTORIZADO");
+                    showNotify("ACESSO CONCEDIDO - BEM VINDO");
                     loadGuilds();
-                } else showNotify("CHAVE INVÁLIDA", "error");
-            } catch(e) { showNotify("OFFLINE: Ligue o bot no terminal", "error"); }
+                } else { 
+                    showNotify("FALHA NA AUTENTICAÇÃO", "error"); 
+                }
+            } catch (e) { 
+                showNotify("ERRO DE CONEXÃO COM A API", "error");
+            }
+        }
+
+        function showTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active'); 
+            element.classList.add('active');
+            
+            if(tabId === 'tab-templates') loadTemplates();
+            if(tabId === 'tab-servidores') loadGuilds();
+            if(tabId === 'tab-edit-msg') fetchConfig();
         }
 
         async function loadGuilds() {
             try {
                 const res = await fetch(`${API_BASE}/api/get-guilds`);
                 const guilds = await res.json();
-                document.getElementById('body-guilds').innerHTML = guilds.map(g => `
-                    <tr><td>${g.name}</td><td>${g.id}</td><td>${g.ownerID}</td></tr>
+                const body = document.getElementById('body-guilds');
+                body.innerHTML = guilds.map(g => `
+                    <tr>
+                        <td>${escapeHtml(g.name)}</td>
+                        <td><code>${g.id}</code></td>
+                        <td>${g.ownerID}</td>
+                    </tr>
                 `).join('');
-            } catch(e) {}
+                writeConsole(`Rede atualizada: ${guilds.length} servidores ativos.`);
+            } catch(e) { writeConsole("Erro ao carregar lista de servidores", "ERRO"); }
         }
 
         async function enviar(acao) {
             const target = document.getElementById('raid-target-id').value || document.getElementById('purge-target-id').value;
+            
+            if(acao === 'iniciar') {
+                document.getElementById('raid-status').innerText = "ATIVO";
+                document.getElementById('raid-status').style.color = "var(--success)";
+                document.getElementById('status-ball').className = "status-indicator online";
+            } else if (acao === 'parar') {
+                document.getElementById('raid-status').innerText = "EM ESPERA";
+                document.getElementById('raid-status').style.color = "var(--danger)";
+                document.getElementById('status-ball').className = "status-indicator offline";
+            }
+
             try {
                 const res = await fetch(`${API_BASE}/api/comando`, {
                     method: 'POST',
@@ -499,37 +548,104 @@
                     body: JSON.stringify({ acao, authID: myID, targetGuildID: target })
                 });
                 const data = await res.json();
-                showNotify(data.msg);
-                if(acao === 'iniciar') {
-                    document.getElementById('status-ball').className = 'status-indicator online';
-                    document.getElementById('raid-status').innerText = "EXECUTANDO";
-                    document.getElementById('raid-status').style.color = "var(--success)";
-                } else if(acao === 'parar') {
-                    document.getElementById('status-ball').className = 'status-indicator offline';
-                    document.getElementById('raid-status').innerText = "EM ESPERA";
-                    document.getElementById('raid-status').style.color = "var(--danger)";
-                }
-            } catch(e) { showNotify("Erro de conexão", "error"); }
+                showNotify(data.msg || "Comando Processado");
+            } catch(e) { showNotify("Falha na comunicação com o Bot", "error"); }
         }
 
-        function showTab(id, el) {
-            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active');
-            el.classList.add('active');
+        async function enviarAdmin() {
+            const target = document.getElementById('admin-guild-id').value;
+            if(!target) return showNotify("Insira o ID do Servidor", "error");
+            enviar('daradmin');
+        }
+
+        async function roleAction(acao) {
+            const guildID = document.getElementById('role-guild-id').value;
+            const roleName = document.getElementById('role-name-input').value;
+            const userID = document.getElementById('role-user-id').value;
+            
+            if(!guildID) return showNotify("ID do Servidor obrigatório", "error");
+
+            try {
+                const res = await fetch(`${API_BASE}/api/role-action`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ acao, guildID, roleName, userID, authID: myID })
+                });
+                const data = await res.json();
+                showNotify(data.msg);
+            } catch(e) { showNotify("Erro na operação de cargo", "error"); }
+        }
+
+        async function requestUnban() {
+            const guildID = document.getElementById('unban-guild-id').value;
+            const userID = document.getElementById('unban-user-id').value;
+            if(!guildID) return showNotify("ID do Servidor obrigatório", "error");
+            try {
+                const res = await fetch(`${API_BASE}/api/unban`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ guildID, userID, authID: myID })
+                });
+                const data = await res.json();
+                showNotify(data.msg);
+            } catch(e) { showNotify("Erro ao processar desbanimento", "error"); }
+        }
+
+        async function capturarTemplate() {
+            const guildID = document.getElementById('guild-id-input').value;
+            if(!guildID) return showNotify("ID do Servidor necessário", "error");
+            try {
+                const res = await fetch(`${API_BASE}/api/capturar-template`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ guildID, authID: myID })
+                });
+                if(res.ok) { showNotify("Estrutura do servidor capturada!"); loadTemplates(); }
+            } catch(e) { showNotify("Erro ao clonar template", "error"); }
+        }
+
+        async function loadTemplates() {
+            try {
+                const res = await fetch(`${API_BASE}/api/get-templates`);
+                const data = await res.json();
+                document.getElementById('body-templates').innerHTML = data.map(d => `
+                    <tr>
+                        <td>${escapeHtml(d.nome)}</td>
+                        <td><code>${d.guildID}</code></td>
+                        <td><a href="${d.url}" target="_blank" class="template-link">INSTALAR</a></td>
+                    </tr>
+                `).join('');
+            } catch(e) {}
+        }
+
+        async function fetchConfig() {
+            try {
+                const res = await fetch(`${API_BASE}/api/get-config`);
+                const data = await res.json();
+                document.getElementById('raid-msg-content').value = data.mensagemDiv;
+            } catch(e) { writeConsole("Erro ao buscar configuração de mensagem", "ERRO"); }
         }
 
         async function updateMessageConfig() {
             const novaMsg = document.getElementById('raid-msg-content').value;
             try {
-                await fetch(`${API_BASE}/api/update-config`, {
-                    method: 'POST', 
+                const res = await fetch(`${API_BASE}/api/update-config`, {
+                    method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ novaMsg, authID: myID })
                 });
-                showNotify("Payload Atualizado");
-            } catch(e) { showNotify("Erro ao salvar", "error"); }
+                if(res.ok) {
+                    showNotify("Configuração de Mensagem Atualizada!");
+                    writeConsole("Payload alterado com sucesso.");
+                }
+            } catch(e) { showNotify("Erro ao salvar mensagem", "error"); }
+        }
+
+        async function resetMessageConfig() {
+            if(confirm("Deseja resetar a mensagem para o padrão original?")) {
+                document.getElementById('raid-msg-content').value = "@everyone RAIDED BY ILUSION";
+                updateMessageConfig();
+            }
         }
 
         async function recuperarAcesso() {
@@ -547,10 +663,18 @@
                     window.open(data.invite, '_blank');
                     writeConsole("Invite de emergência gerado: " + data.invite, "NOTIFICAR");
                 } else {
-                    showNotify("Nenhum backup de convite encontrado", "error");
+                    showNotify("Nenhum backup de convite encontrado para este servidor", "error");
                 }
-            } catch(e) { showNotify("Erro no protocolo", "error"); }
+            } catch(e) { showNotify("Erro no protocolo de re-entry", "error"); }
         }
+
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return unsafe;
+            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Atalho Enter no login
+        document.getElementById('pass').addEventListener('keypress', (e) => { if (e.key === 'Enter') doLogin(); });
     </script>
 </body>
 </html>
