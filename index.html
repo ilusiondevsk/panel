@@ -6,45 +6,237 @@
     <title>ILUSION | INTERFACE SUPREMA</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        :root{--primary:#f0f;--primary-glow:rgba(255,0,255,0.4);--secondary:#0ff;--secondary-glow:rgba(0,255,255,0.3);--bg-dark:#050507;--card-bg:rgba(15,15,20,0.7);--danger:#ff3333;--success:#00ff88;--panel-border:rgba(255,0,255,0.15);--sidebar-width:280px}
-        *{box-spacing:border-box;font-family:'Rajdhani',sans-serif;margin:0;padding:0;transition:all .2s cubic-bezier(.4,0,.2,1)}
-        body{background:var(--bg-dark);color:#e0e0e0;height:100vh;overflow:hidden;display:flex;background-image:radial-gradient(circle at 10% 20%,rgba(255,0,255,0.04) 0%,transparent 40%),radial-gradient(circle at 90% 80%,rgba(0,255,255,0.03) 0%,transparent 40%),url('https://www.transparenttextures.com/patterns/carbon-fibre.png')}
-        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:10px}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
-        #login-page{position:fixed;inset:0;background:rgba(5,5,8,0.95);display:flex;justify-content:center;align-items:center;z-index:9999;backdrop-filter:blur(25px)}
-        .login-card{background:var(--card-bg);padding:50px;border:1px solid var(--panel-border);border-radius:30px;text-align:center;box-shadow:0 0 50px rgba(0,0,0,0.8),0 0 30px var(--primary-glow);width:420px;position:relative;overflow:hidden}
-        .login-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,transparent,var(--primary),transparent)}
-        .login-card h2{font-family:'Orbitron',sans-serif;letter-spacing:12px;margin-bottom:35px;color:var(--primary);text-shadow:0 0 15px var(--primary-glow)}
-        .sidebar{width:var(--sidebar-width);background:rgba(8,8,10,0.9);border-right:1px solid var(--panel-border);display:flex;flex-direction:column;padding:40px 0;z-index:1000;backdrop-filter:blur(10px)}
-        .sidebar-brand{padding:0 40px;margin-bottom:50px;text-align:center}.sidebar-logo{width:100%;max-width:180px;filter:drop-shadow(0 0 12px var(--primary-glow))}
-        .nav-item{padding:18px 30px;cursor:pointer;color:#777;font-weight:700;font-size:13px;letter-spacing:2px;display:flex;align-items:center;margin:4px 15px;border-radius:12px;text-transform:uppercase}
-        .nav-item span.icon{margin-right:15px;font-size:18px;filter:grayscale(1);opacity:.5}.nav-item:hover{color:#fff;background:rgba(255,255,255,0.03)}
-        .nav-item.active{color:var(--primary);background:rgba(255,0,255,0.08);box-shadow:inset 0 0 15px rgba(255,0,255,0.05);text-shadow:0 0 10px var(--primary-glow)}
-        .nav-item.active span.icon{filter:grayscale(0);opacity:1}.main-container{flex:1;display:flex;flex-direction:column;position:relative}
-        .console-wrapper{height:110px;background:rgba(0,0,0,0.4);border-bottom:1px solid var(--panel-border);padding:15px 35px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:11px;backdrop-filter:blur(5px)}
-        .main-content{flex:1;padding:40px 50px;overflow-y:auto}
-        h1{font-family:'Orbitron',sans-serif;font-size:24px;margin-bottom:35px;color:#fff;letter-spacing:5px;text-transform:uppercase;display:flex;align-items:center;gap:15px}
-        h1::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--panel-border),transparent)}
-        .status-box{background:var(--card-bg);border:1px solid var(--panel-border);padding:40px;border-radius:24px;margin-bottom:30px;box-shadow:0 15px 35px rgba(0,0,0,0.4);position:relative}
-        label{color:var(--primary);font-size:11px;letter-spacing:2px;font-weight:700;text-transform:uppercase}
-        input,textarea{width:100%;padding:16px 20px;margin:12px 0;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:#fff;outline:none;font-size:14px;font-family:'JetBrains Mono',monospace}
-        input:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 15px rgba(255,0,255,0.1)}
-        .btn-action,.btn-main{background:var(--primary);color:#000;border:none;padding:18px 30px;font-weight:900;cursor:pointer;border-radius:12px;text-transform:uppercase;letter-spacing:2px;font-family:'Orbitron',sans-serif;font-size:11px;box-shadow:0 4px 15px var(--primary-glow)}
-        .btn-action:hover{transform:translateY(-3px);filter:brightness(1.2);box-shadow:0 8px 25px var(--primary-glow)}
-        .btn-danger{background:transparent;border:1px solid var(--danger);color:var(--danger);box-shadow:none}
-        .btn-danger:hover{background:var(--danger);color:#fff;box-shadow:0 0 20px rgba(255,51,51,0.4)}
-        table{width:100%;border-collapse:separate;border-spacing:0 10px;margin-top:10px}
-        th{padding:12px 25px;color:#555;text-transform:uppercase;font-size:10px;letter-spacing:2px;text-align:left}
-        td{padding:18px 25px;background:rgba(255,255,255,0.03);border-radius:0}
-        tr td:first-child{border-radius:12px 0 0 12px;border-left:2px solid transparent}
-        tr td:last-child{border-radius:0 12px 12px 0}
-        tr:hover td{background:rgba(255,255,255,0.06);color:var(--secondary);border-left-color:var(--secondary)}
-        .notification{background:rgba(10,10,15,0.95);border-radius:12px;padding:18px 25px;margin-bottom:10px;border-left:4px solid var(--primary);box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:space-between;min-width:320px;animation:slideIn .3s ease-out}
-        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-        .status-indicator{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:12px}
-        .online{background:var(--success);box-shadow:0 0 12px var(--success)}.offline{background:var(--danger);box-shadow:0 0 12px var(--danger)}
-        .template-link{color:var(--primary);text-decoration:none;font-weight:700;border:1px solid var(--primary);padding:5px 12px;border-radius:8px;font-size:11px}
-        .template-link:hover{background:var(--primary);color:#000}.tab-content{display:none;animation:fadeIn .4s ease}.tab-content.active{display:block}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        :root {
+            --primary: #f0f;
+            --primary-glow: rgba(255, 0, 255, 0.4);
+            --secondary: #0ff;
+            --secondary-glow: rgba(0, 255, 255, 0.3);
+            --bg-dark: #050507;
+            --card-bg: rgba(15, 15, 20, 0.7);
+            --danger: #ff3333;
+            --success: #00ff88;
+            --panel-border: rgba(255, 0, 255, 0.15);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box; /* Corrigido de box-spacing para box-sizing */
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all .2s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+
+        /* Scrollbar Customizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* Login Page */
+        #login-page {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 8, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(25px);
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            padding: 50px;
+            border: 1px solid var(--panel-border);
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--primary-glow);
+            width: 420px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .login-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 12px;
+            margin-bottom: 35px;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(8, 8, 10, 0.9);
+            border-right: 1px solid var(--panel-border);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .sidebar-brand { padding: 0 40px; margin-bottom: 50px; text-align: center; }
+        .sidebar-logo { width: 100%; max-width: 180px; filter: drop-shadow(0 0 12px var(--primary-glow)); }
+
+        .nav-item {
+            padding: 18px 30px;
+            cursor: pointer;
+            color: #777;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            margin: 4px 15px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .nav-item span.icon { margin-right: 15px; font-size: 18px; filter: grayscale(1); opacity: .5; }
+        .nav-item:hover { color: #fff; background: rgba(255, 255, 255, 0.03); }
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(255, 0, 255, 0.08);
+            box-shadow: inset 0 0 15px rgba(255, 0, 255, 0.05);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+        .nav-item.active span.icon { filter: grayscale(0); opacity: 1; }
+
+        /* Main Content */
+        .main-container { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+        .console-wrapper {
+            height: 110px;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 15px 35px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            backdrop-filter: blur(5px);
+        }
+
+        .main-content { flex: 1; padding: 40px 50px; overflow-y: auto; }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin-bottom: 35px;
+            color: #fff;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h1::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--panel-border), transparent); }
+
+        .status-box {
+            background: var(--card-bg);
+            border: 1px solid var(--panel-border);
+            padding: 40px;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        label { color: var(--primary); font-size: 11px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+
+        input, textarea {
+            width: 100%;
+            padding: 16px 20px;
+            margin: 12px 0;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 0, 255, 0.1); }
+
+        .btn-action, .btn-main {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 18px 30px;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.2); box-shadow: 0 8px 25px var(--primary-glow); }
+
+        .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); box-shadow: none; }
+        .btn-danger:hover { background: var(--danger); color: #fff; box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
+
+        /* Tables */
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; }
+        th { padding: 12px 25px; color: #555; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; text-align: left; }
+        td { padding: 18px 25px; background: rgba(255, 255, 255, 0.03); border-radius: 0; }
+        tr td:first-child { border-radius: 12px 0 0 12px; border-left: 2px solid transparent; }
+        tr td:last-child { border-radius: 0 12px 12px 0; }
+        tr:hover td { background: rgba(255, 255, 255, 0.06); color: var(--secondary); border-left-color: var(--secondary); }
+
+        /* Notifications */
+        .notification {
+            background: rgba(10, 10, 15, 0.95);
+            border-radius: 12px;
+            padding: 18px 25px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 320px;
+            animation: slideIn .3s ease-out;
+        }
+
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .status-indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 12px; }
+        .online { background: var(--success); box-shadow: 0 0 12px var(--success); }
+        .offline { background: var(--danger); box-shadow: 0 0 12px var(--danger); }
+
+        .template-link { color: var(--primary); text-decoration: none; font-weight: 700; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 11px; }
+        .template-link:hover { background: var(--primary); color: #000; }
+
+        .tab-content { display: none; animation: fadeIn .4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -130,7 +322,10 @@
                 <h1>Cofre de Templates</h1>
                 <div class="status-box">
                     <div style="display:flex;gap:15px;align-items:flex-end">
-                        <div style="flex:1"><label>ID DO SERVIDOR FONTE</label><input type="text" id="guild-id-input" placeholder="ID para clonar"></div>
+                        <div style="flex:1">
+                            <label>ID DO SERVIDOR FONTE</label>
+                            <input type="text" id="guild-id-input" placeholder="ID para clonar">
+                        </div>
                         <button class="btn-action" onclick="capturarTemplate()">Sincronizar Template</button>
                     </div>
                 </div>
@@ -209,7 +404,6 @@
 
     <script>
         let myID = "";
-        // URL ATUALIZADA PARA O SEU LOCALTUNNEL
         const API = "https://stale-peaches-rhyme.loca.lt";
         
         function writeConsole(msg, status = "INFO") {
@@ -290,7 +484,6 @@
                 }
             } catch (e) { 
                 showNotify("ERRO: O TUNEL DO BOT PODE ESTAR OFFLINE", "error");
-                console.error("Login Error:", e);
             }
         }
 
