@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    
     <title>ILUSION | INTERFACE SUPREMA v4.0.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
@@ -439,18 +437,12 @@
 
         async function checkApiStatus() {
             try {
-                // Timeout curto para não travar a UI
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 2000);
-                
-                const res = await fetch(`${API_BASE}/api/get-config`, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                
+                const res = await fetch(`${API_BASE}/api/get-config`, { signal: AbortSignal.timeout(3000) });
                 document.getElementById('connection-error').classList.remove('show');
             } catch(e) {
                 document.getElementById('connection-error').classList.add('show');
             }
-            setTimeout(checkApiStatus, 8000);
+            setTimeout(checkApiStatus, 10000);
         }
 
         function writeConsole(msg, status = "INFO") {
@@ -486,7 +478,7 @@
             const id = document.getElementById('id-disc').value.trim();
             const senha = document.getElementById('pass').value.trim();
             
-            if(!id) return showNotify("ID do Discord é obrigatório", "error");
+            if(!id || !senha) return showNotify("Preencha todos os campos", "error");
 
             try {
                 const res = await fetch(`${API_BASE}/api/login`, {
@@ -495,16 +487,14 @@
                     body: JSON.stringify({id, senha})
                 });
                 
-                const data = await res.json();
-                
-                if(res.ok || data.success) {
+                if(res.ok) {
                     myID = id; 
                     localStorage.setItem('ilusion_id', id);
                     document.getElementById('login-page').style.display = 'none';
                     showNotify("ACESSO CONCEDIDO - BEM VINDO");
                     loadGuilds();
                 } else { 
-                    showNotify(data.msg || "FALHA NA AUTENTICAÇÃO", "error"); 
+                    showNotify("FALHA NA AUTENTICAÇÃO", "error"); 
                 }
             } catch (e) { 
                 showNotify("ERRO DE CONEXÃO COM A API", "error");
@@ -683,6 +673,7 @@
             return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
+        // Atalho Enter no login
         document.getElementById('pass').addEventListener('keypress', (e) => { if (e.key === 'Enter') doLogin(); });
     </script>
 </body>
