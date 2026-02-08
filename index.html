@@ -404,7 +404,8 @@
     </div>
 
     <script>
-        const API_BASE = "http://localhost:7001"; 
+        // API ATUALIZADA PARA LOCALHOST
+        const API_BASE = "http://51.222.156.246:7001"; 
         let myID = localStorage.getItem('ilusion_id') || "";
 
         window.onload = () => {
@@ -416,7 +417,6 @@
             checkApiStatus();
         };
 
-        // Adicionado listener para a tecla Enter no login
         document.getElementById('pass').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 doLogin();
