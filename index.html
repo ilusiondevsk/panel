@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ILUSION | INTERFACE SUPREMA v4.0.2</title>
+    <title>ILUSION | INTERFACE SUPREMA v4.1.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,20 +12,14 @@
             --secondary: #0ff;
             --secondary-glow: rgba(0, 255, 255, 0.3);
             --bg-dark: #050507;
-            --card-bg: rgba(15, 15, 20, 0.85);
+            --card-bg: rgba(15, 15, 20, 0.9);
             --danger: #ff3333;
             --success: #00ff88;
-            --panel-border: rgba(255, 0, 255, 0.2);
+            --panel-border: rgba(255, 0, 255, 0.3);
             --sidebar-width: 280px;
         }
 
-        * {
-            box-sizing: border-box; 
-            font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            padding: 0;
-            transition: all .2s cubic-bezier(.4, 0, .2, 1);
-        }
+        * { box-sizing: border-box; font-family: 'Rajdhani', sans-serif; margin: 0; padding: 0; transition: all .2s; }
 
         body {
             background: var(--bg-dark);
@@ -35,531 +29,293 @@
             display: flex;
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.04) 0%, transparent 40%),
                 url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); }
 
+        /* Login Page */
         #login-page {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 8, 0.98);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(30px);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; backdrop-filter: blur(20px);
         }
 
         .login-card {
-            background: var(--card-bg);
-            padding: 50px;
-            border: 1px solid var(--panel-border);
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 30px var(--primary-glow);
-            width: 420px;
-            position: relative;
-            overflow: hidden;
+            background: var(--card-bg); padding: 40px;
+            border: 1px solid var(--panel-border); border-radius: 20px;
+            width: 380px; text-align: center; box-shadow: 0 0 40px var(--primary-glow);
         }
 
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            animation: borderFlow 3s linear infinite;
-        }
-
-        @keyframes borderFlow { 0% { left: -100%; } 100% { left: 100%; } }
-
-        .login-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 12px;
-            margin-bottom: 35px;
-            color: var(--primary);
-            text-shadow: 0 0 15px var(--primary-glow);
-        }
-
+        /* Sidebar */
         .sidebar {
-            width: var(--sidebar-width);
-            background: rgba(8, 8, 10, 0.95);
+            width: var(--sidebar-width); background: #08080a;
             border-right: 1px solid var(--panel-border);
-            display: flex;
-            flex-direction: column;
-            padding: 40px 0;
-            z-index: 1000;
-            backdrop-filter: blur(15px);
+            display: flex; flex-direction: column; padding: 30px 0; z-index: 1000;
         }
-
-        .sidebar-brand { padding: 0 40px; margin-bottom: 50px; text-align: center; }
-        .sidebar-logo { width: 100%; max-width: 180px; filter: drop-shadow(0 0 12px var(--primary-glow)); }
 
         .nav-item {
-            padding: 18px 30px;
-            cursor: pointer;
-            color: #777;
-            font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            margin: 4px 15px;
-            border-radius: 12px;
-            text-transform: uppercase;
+            padding: 15px 25px; cursor: pointer; color: #666; font-weight: 700;
+            font-size: 13px; letter-spacing: 1px; display: flex; align-items: center;
+            margin: 2px 10px; border-radius: 8px; text-transform: uppercase;
         }
 
-        .nav-item span.icon { margin-right: 15px; font-size: 18px; filter: grayscale(1); opacity: .5; }
-        .nav-item:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-        .nav-item.active {
-            color: var(--primary);
-            background: rgba(255, 0, 255, 0.1);
-            box-shadow: inset 0 0 15px rgba(255, 0, 255, 0.05);
+        .nav-item:hover, .nav-item.active {
+            color: var(--primary); background: rgba(255, 0, 255, 0.1);
             text-shadow: 0 0 10px var(--primary-glow);
         }
-        .nav-item.active span.icon { filter: grayscale(0); opacity: 1; }
 
-        .main-container { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        /* Main Container */
+        .main-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-        .console-wrapper {
-            height: 120px;
-            background: rgba(0, 0, 0, 0.6);
-            border-bottom: 1px solid var(--panel-border);
-            padding: 15px 35px;
-            overflow-y: auto;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            backdrop-filter: blur(10px);
+        .top-bar {
+            height: 60px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--panel-border);
+            display: flex; align-items: center; padding: 0 30px; justify-content: space-between;
         }
 
-        .main-content { flex: 1; padding: 40px 50px; overflow-y: auto; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            margin-bottom: 35px;
-            color: #fff;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        h1::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--panel-border), transparent); }
-
+        /* Componentes */
         .status-box {
-            background: var(--card-bg);
-            border: 1px solid var(--panel-border);
-            padding: 40px;
-            border-radius: 24px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            position: relative;
+            background: var(--card-bg); border: 1px solid var(--panel-border);
+            padding: 25px; border-radius: 15px; margin-bottom: 20px;
         }
-
-        label { color: var(--primary); font-size: 11px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; display: block; margin-top: 15px; }
 
         input, textarea {
-            width: 100%;
-            padding: 16px 20px;
-            margin: 12px 0;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            color: #fff;
-            outline: none;
-            font-size: 14px;
-            font-family: 'JetBrains Mono', monospace;
+            width: 100%; padding: 12px; margin: 10px 0; background: #000;
+            border: 1px solid #333; border-radius: 8px; color: var(--secondary);
+            font-family: 'JetBrains Mono';
         }
 
-        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 0, 255, 0.15); }
-
-        .btn-action, .btn-main {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 18px 30px;
-            font-weight: 900;
-            cursor: pointer;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            box-shadow: 0 4px 15px var(--primary-glow);
+        .btn-action {
+            background: var(--primary); color: #000; border: none;
+            padding: 12px 20px; font-weight: 900; cursor: pointer;
+            border-radius: 8px; text-transform: uppercase; font-family: 'Orbitron';
+            font-size: 10px; box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .btn-action:hover { transform: translateY(-3px); filter: brightness(1.2); box-shadow: 0 8px 25px var(--primary-glow); }
-        .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); box-shadow: none; }
-        .btn-danger:hover { background: var(--danger); color: #fff; box-shadow: 0 0 20px rgba(255, 51, 51, 0.4); }
+        .btn-danger { background: var(--danger); box-shadow: 0 0 15px rgba(255, 51, 51, 0.4); }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; }
-        th { padding: 12px 25px; color: #555; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; text-align: left; }
-        td { padding: 18px 25px; background: rgba(255, 255, 255, 0.03); border-radius: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-        tr td:first-child { border-radius: 12px 0 0 12px; border-left: 2px solid transparent; }
-        tr td:last-child { border-radius: 0 12px 12px 0; }
-        tr:hover td { background: rgba(255, 255, 255, 0.06); color: var(--secondary); border-left-color: var(--secondary); }
-
-        .notification {
-            background: rgba(10, 10, 15, 0.95);
-            border-radius: 12px;
-            padding: 18px 25px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 320px;
-            animation: slideIn .3s ease-out;
-            backdrop-filter: blur(10px);
+        .console {
+            background: #000; height: 150px; overflow-y: auto; padding: 15px;
+            font-family: 'JetBrains Mono'; font-size: 11px; border-radius: 10px;
+            border: 1px solid #222; margin-top: 20px;
         }
 
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        .status-indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 12px; }
-        .online { background: var(--success); box-shadow: 0 0 12px var(--success); }
-        .offline { background: var(--danger); box-shadow: 0 0 12px var(--danger); }
-
-        .template-link { color: var(--primary); text-decoration: none; font-weight: 700; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 11px; }
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn .4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .connection-error {
-            background: rgba(255, 51, 51, 0.9);
-            border-left: 4px solid #fff;
-            padding: 15px;
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'JetBrains Mono', monospace;
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10001;
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .error-link {
+            position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+            background: var(--danger); padding: 10px 20px; border-radius: 5px;
+            z-index: 10002; display: none; font-weight: bold;
         }
-        .connection-error.show { display: block; }
     </style>
 </head>
 <body>
-    <div id="notification-container" style="position:fixed;top:30px;right:30px;z-index:10000"></div>
-    <div class="connection-error" id="connection-error">⚠️ LINK PERDIDO: O servidor central (API) não responde.</div>
+
+    <div class="error-link" id="api-error">⚠️ FALHA NA CONEXÃO COM A HOST</div>
 
     <div id="login-page">
         <div class="login-card">
-            <h2>ILUSION</h2>
-            <div style="text-align:left">
-                <label>ID DE ACESSO DISCORD</label>
-                <input type="text" id="id-disc" placeholder="ID do Usuário" autocomplete="off">
-                <label>CHAVE MESTRA</label>
-                <input type="password" id="pass" placeholder="••••••••">
-            </div>
-            <button class="btn-main" onclick="doLogin()" style="width:100%;margin-top:20px">Autorizar Sistema</button>
+            <h1 style="color:var(--primary); font-family:'Orbitron'; letter-spacing:10px">ILUSION</h1>
+            <p style="font-size:10px; margin-bottom:20px">SISTEMA DE GERENCIAMENTO REMOTO</p>
+            <input type="text" id="id-disc" placeholder="ID DO USUÁRIO">
+            <input type="password" id="pass" placeholder="CHAVE MESTRA">
+            <button class="btn-action" style="width:100%" onclick="doLogin()">AUTORIZAR</button>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="https://media.discordapp.net/attachments/1469863989705052376/1469896637424865401/image-removebg-preview.png" alt="ILUSION" class="sidebar-logo">
+        <div style="text-align:center; margin-bottom:30px">
+            <img src="https://media.discordapp.net/attachments/1469863989705052376/1469896637424865401/image-removebg-preview.png" width="120">
         </div>
-        <div class="nav-item active" onclick="showTab('tab-raid', this)"><span class="icon">🚀</span> RAIDAR</div>
-        <div class="nav-item" onclick="showTab('tab-servidores', this)"><span class="icon">🌐</span> REDE</div>
-        <div class="nav-item" onclick="showTab('tab-reentry', this)"><span class="icon">🔄</span> RE-ENTRY</div>
-        <div class="nav-item" onclick="showTab('tab-templates', this)"><span class="icon">📂</span> TEMPLATES</div>
-        <div class="nav-item" onclick="showTab('tab-unban', this)"><span class="icon">🔓</span> DESBANIR</div>
-        <div class="nav-item" onclick="showTab('tab-limpeza', this)"><span class="icon">🧹</span> LIMPEZA</div>
-        <div class="nav-item" onclick="showTab('tab-membros', this)"><span class="icon">👥</span> FORÇAR OP</div>
-        <div class="nav-item" onclick="showTab('tab-cargos', this)"><span class="icon">🛡️</span> CARGOS</div>
-        <div class="nav-item" onclick="showTab('tab-edit-msg', this)"><span class="icon">✉</span> MENSAGEM</div>
-        <div class="nav-item" onclick="showTab('tab-console-full', this)" style="margin-top:auto"><span class="icon">💻</span> TERMINAL</div>
+        <div class="nav-item active" onclick="showTab('tab-raid', this)">🚀 Raid Core</div>
+        <div class="nav-item" onclick="showTab('tab-rede', this)">🌐 Rede Servidores</div>
+        <div class="nav-item" onclick="showTab('tab-limpeza', this)">🧹 Limpeza Total</div>
+        <div class="nav-item" onclick="showTab('tab-cargos', this)">🛡️ Gestão Cargos</div>
+        <div class="nav-item" onclick="showTab('tab-msg', this)">✉️ Payload Msg</div>
     </div>
 
     <div class="main-container">
-        <div class="console-wrapper" id="main-console">
-            <div style="color:var(--primary);opacity:0.6">[SISTEMA] Ilusion OS v4.0.2 Inicializado.</div>
+        <div class="top-bar">
+            <div id="api-indicator">📡 HOST: <span style="color:var(--danger)">OFFLINE</span></div>
+            <div style="font-size:12px; color:var(--primary)">v4.1.0 STABLE</div>
         </div>
 
         <div class="main-content">
+            
             <div id="tab-raid" class="tab-content active">
-                <h1>Operações de Raid</h1>
+                <h2>PROTOCOLO DE INCURSÃO</h2>
                 <div class="status-box">
-                    <label>ID DO SERVIDOR ALVO</label>
-                    <input type="text" id="raid-target-id" placeholder="ID do Servidor (Vazio = Global)">
-                    <div style="margin:25px 0;display:flex;align-items:center">
-                        <span class="status-indicator offline" id="status-ball"></span>
-                        <span>STATUS: <b id="raid-status" style="color:var(--danger)">EM ESPERA</b></span>
-                    </div>
-                    <div style="display:flex;gap:15px">
-                        <button class="btn-action" onclick="enviar('iniciar')">Executar Raid</button>
-                        <button class="btn-action btn-danger" onclick="enviar('parar')">Abortar Missão</button>
+                    <label>ID DO ALVO</label>
+                    <input type="text" id="raid-target" placeholder="Vazio para RAID GLOBAL">
+                    <div style="display:flex; gap:10px; margin-top:15px">
+                        <button class="btn-action" onclick="enviarComando('iniciar')">INICIAR RAID</button>
+                        <button class="btn-action btn-danger" onclick="enviarComando('parar')">PARAR RAID</button>
                     </div>
                 </div>
+                <div class="console" id="log-console"></div>
             </div>
 
-            <div id="tab-servidores" class="tab-content">
-                <h1>Rede Conectada</h1>
-                <div class="status-box">
-                    <table>
-                        <thead><tr><th>Nome</th><th>ID</th><th>Dono</th></tr></thead>
-                        <tbody id="body-guilds"></tbody>
-                    </table>
-                    <button class="btn-action" onclick="loadGuilds()" style="margin-top:25px">Atualizar Rede</button>
-                </div>
-            </div>
-
-            <div id="tab-reentry" class="tab-content">
-                <h1>Protocolo de Re-entry</h1>
-                <div class="status-box">
-                    <label>ID DO SERVIDOR</label>
-                    <input type="text" id="reentry-guild-id" placeholder="ID do Servidor">
-                    <button class="btn-action" onclick="recuperarAcesso()" style="width:100%">Gerar Convite</button>
-                    <div id="reentry-result" style="margin-top:20px"></div>
-                </div>
-            </div>
-
-            <div id="tab-templates" class="tab-content">
-                <h1>Cofre de Templates</h1>
-                <div class="status-box">
-                    <label>ID FONTE</label>
-                    <div style="display:flex;gap:15px">
-                        <input type="text" id="guild-id-input">
-                        <button class="btn-action" onclick="capturarTemplate()">Sincronizar</button>
-                    </div>
-                </div>
-                <table>
-                    <thead><tr><th>Nome</th><th>ID</th><th>Acesso</th></tr></thead>
-                    <tbody id="body-templates"></tbody>
-                </table>
-            </div>
-
-            <div id="tab-unban" class="tab-content">
-                <h1>Revogar Banimentos</h1>
-                <div class="status-box">
-                    <label>ID SERVIDOR</label><input type="text" id="unban-guild-id">
-                    <label>ID USUÁRIO</label><input type="text" id="unban-user-id">
-                    <button class="btn-action" onclick="requestUnban()" style="width:100%">Executar</button>
+            <div id="tab-rede" class="tab-content">
+                <h2>SERVIDORES CONECTADOS</h2>
+                <button class="btn-action" onclick="loadGuilds()">REESCANEAR REDE</button>
+                <div class="status-box" style="margin-top:20px">
+                    <table width="100%" id="table-guilds">
+                        </table>
                 </div>
             </div>
 
             <div id="tab-limpeza" class="tab-content">
-                <h1>Limpeza</h1>
+                <h2>LIMPEZA DE AMBIENTE</h2>
                 <div class="status-box">
-                    <label>ID ALVO</label><input type="text" id="purge-target-id">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
-                        <button class="btn-action btn-danger" onclick="enviar('apagarcanais')">Canais</button>
-                        <button class="btn-action btn-danger" onclick="enviar('apagarcargos')">Cargos</button>
-                        <button class="btn-action btn-danger" onclick="enviar('banir-todos')">Banir Todos</button>
-                        <button class="btn-action" onclick="enviar('renomear')">Renomear</button>
+                    <input type="text" id="purge-id" placeholder="ID DO SERVIDOR">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
+                        <button class="btn-action btn-danger" onclick="enviarComando('apagarcanais', 'purge-id')">DELETAR CANAIS</button>
+                        <button class="btn-action btn-danger" onclick="enviarComando('apagarcargos', 'purge-id')">DELETAR CARGOS</button>
+                        <button class="btn-action btn-danger" onclick="enviarComando('banir-todos', 'purge-id')">BANIR TODOS</button>
+                        <button class="btn-action" onclick="enviarComando('renomear', 'purge-id')">RENOMEAR GERAL</button>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-membros" class="tab-content">
-                <h1>Escalação</h1>
-                <div class="status-box">
-                    <input type="text" id="admin-guild-id" placeholder="ID Servidor">
-                    <button class="btn-action" onclick="enviarAdmin()" style="width:100%">Me dar ADM</button>
-                </div>
-            </div>
-
             <div id="tab-cargos" class="tab-content">
-                <h1>Cargos</h1>
+                <h2>HIERARQUIA</h2>
                 <div class="status-box">
-                    <input type="text" id="role-guild-id" placeholder="ID Servidor">
-                    <input type="text" id="role-name-input" placeholder="Nome Cargo">
-                    <input type="text" id="role-user-id" placeholder="ID Usuário">
-                    <button class="btn-action" onclick="roleAction('criar')">Criar</button>
-                    <button class="btn-action" onclick="roleAction('setar')">Atribuir</button>
+                    <input type="text" id="c-guild" placeholder="ID SERVIDOR">
+                    <input type="text" id="c-user" placeholder="ID USUÁRIO">
+                    <input type="text" id="c-name" placeholder="NOME DO CARGO">
+                    <button class="btn-action" onclick="roleAction('setar')">DAR CARGO ADM</button>
                 </div>
             </div>
 
-            <div id="tab-edit-msg" class="tab-content">
-                <h1>Payload</h1>
+            <div id="tab-msg" class="tab-content">
+                <h2>PAYLOAD DE DIVULGAÇÃO</h2>
                 <div class="status-box">
-                    <textarea id="raid-msg-content" rows="6"></textarea>
-                    <button class="btn-action" onclick="updateMessageConfig()">Salvar</button>
+                    <textarea id="msg-content" rows="8" placeholder="Digite a mensagem de Raid aqui..."></textarea>
+                    <button class="btn-action" onclick="saveMsg()">ATUALIZAR PAYLOAD</button>
                 </div>
             </div>
 
-            <div id="tab-console-full" class="tab-content">
-                <h1>Terminal</h1>
-                <div class="status-box" style="background:#000;height:400px;overflow-y:auto" id="full-console-logs"></div>
-            </div>
         </div>
     </div>
 
-<script>
-    const API_BASE = "http://51.222.156.246:7001";
-    let myID = localStorage.getItem('ilusion_id') || "";
+    <script>
+        // MUDAR PARA O SEU IP DA LOXYHOSTING AQUI
+        const API_URL = "http://51.222.156.246:7001"; 
+        let AUTH_ID = localStorage.getItem('ilusion_auth') || "";
 
-    // CONFIGURAÇÃO DE SEGURANÇA PARA FETCH
-    const fetchAPI = async (endpoint, options = {}) => {
-        const defaultOptions = {
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-        };
-        const response = await fetch(`${API_BASE}${endpoint}`, { ...defaultOptions, ...options });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-    };
+        // Função de conexão universal
+        async function callAPI(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Bypass-Tunnel-Reminder': 'true'
+                    },
+                    mode: 'cors'
+                };
+                if (body) options.body = JSON.stringify(body);
 
-    window.onload = () => {
-        if(myID) {
-            document.getElementById('login-page').style.display = 'none';
-            writeConsole("Sessão ativa: " + myID);
-            loadGuilds();
+                const response = await fetch(`${API_URL}${endpoint}`, options);
+                if (!response.ok) throw new Error("Status " + response.status);
+                return await response.json();
+            } catch (err) {
+                console.error("Erro na chamada:", err);
+                document.getElementById('api-error').style.display = 'block';
+                return null;
+            }
         }
-        checkApiStatus();
-    };
 
-    async function checkApiStatus() {
-        try {
-            await fetch(`${API_BASE}/api/get-config`);
-            document.getElementById('connection-error').classList.remove('show');
-        } catch {
-            document.getElementById('connection-error').classList.add('show');
+        function writeLog(msg) {
+            const log = document.getElementById('log-console');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `<div><span style="color:var(--primary)">[${time}]</span> ${msg}</div>`;
+            log.scrollTop = log.scrollHeight;
         }
-        setTimeout(checkApiStatus, 5000);
-    }
 
-    function writeConsole(msg, status = "INFO") {
-        const time = new Date().toLocaleTimeString();
-        const color = status === 'ERRO' ? 'var(--danger)' : (status === 'NOTIFICAR' ? 'var(--secondary)' : 'var(--success)');
-        const html = `<div><span style="color:var(--primary)">[${time}]</span> <span style="color:${color}">${status}:</span> ${msg}</div>`;
-        document.getElementById('main-console').innerHTML += html;
-        document.getElementById('full-console-logs').innerHTML += html;
-        document.getElementById('main-console').scrollTop = 9999;
-    }
+        async function checkStatus() {
+            const data = await callAPI('/api/get-config');
+            const ind = document.getElementById('api-indicator');
+            if (data) {
+                ind.innerHTML = `📡 HOST: <span style="color:var(--success)">ONLINE</span>`;
+                document.getElementById('api-error').style.display = 'none';
+            } else {
+                ind.innerHTML = `📡 HOST: <span style="color:var(--danger)">OFFLINE</span>`;
+            }
+        }
 
-    function showNotify(msg, type = 'success') {
-        const cont = document.getElementById('notification-container');
-        const t = document.createElement('div');
-        t.className = 'notification';
-        if(type === 'error') t.style.borderLeftColor = 'var(--danger)';
-        t.innerHTML = `<b>${msg}</b>`;
-        cont.appendChild(t);
-        setTimeout(() => t.remove(), 3000);
-        writeConsole(msg, type === 'error' ? 'ERRO' : 'NOTIFICAR');
-    }
-
-    async function doLogin() {
-        const id = document.getElementById('id-disc').value;
-        const senha = document.getElementById('pass').value;
-        try {
-            const res = await fetch(`${API_BASE}/api/login`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id, senha})
-            });
-            if(res.ok) {
-                myID = id;
-                localStorage.setItem('ilusion_id', id);
+        async function doLogin() {
+            const id = document.getElementById('id-disc').value;
+            const senha = document.getElementById('pass').value;
+            const res = await callAPI('/api/login', 'POST', { id, senha });
+            
+            if (res && res.success) {
+                AUTH_ID = id;
+                localStorage.setItem('ilusion_auth', id);
                 document.getElementById('login-page').style.display = 'none';
-                showNotify("SISTEMA AUTORIZADO");
+                writeLog("ACESSO GARANTIDO. BEM-VINDO.");
                 loadGuilds();
-            } else { showNotify("ACESSO NEGADO", "error"); }
-        } catch { showNotify("HOST OFFLINE", "error"); }
-    }
-
-    async function loadGuilds() {
-        try {
-            const data = await fetchAPI('/api/get-guilds');
-            document.getElementById('body-guilds').innerHTML = data.map(g => `
-                <tr><td>${g.name}</td><td>${g.id}</td><td>${g.ownerID}</td></tr>
-            `).join('');
-            writeConsole("Rede sincronizada.");
-        } catch { writeConsole("Erro ao ler rede", "ERRO"); }
-    }
-
-    async function enviar(acao) {
-        const target = document.getElementById('raid-target-id').value || document.getElementById('purge-target-id').value;
-        if(acao === 'iniciar') {
-            document.getElementById('raid-status').innerText = "ATIVO";
-            document.getElementById('status-ball').className = "status-indicator online";
+            } else {
+                alert("CREDENCIAIS INVÁLIDAS");
+            }
         }
-        try {
-            const data = await fetchAPI('/api/comando', {
-                method: 'POST',
-                body: JSON.stringify({ acao, authID: myID, targetGuildID: target })
+
+        async function enviarComando(acao, inputId = 'raid-target') {
+            const target = document.getElementById(inputId).value;
+            const res = await callAPI('/api/comando', 'POST', {
+                acao, authID: AUTH_ID, targetGuildID: target
             });
-            showNotify(data.msg || "Comando Enviado");
-        } catch { showNotify("Falha no envio", "error"); }
-    }
+            if (res) writeLog(`COMANDO ${acao}: ${res.msg}`);
+        }
 
-    async function roleAction(acao) {
-        try {
-            const data = await fetchAPI('/api/role-action', {
-                method: 'POST',
-                body: JSON.stringify({
-                    acao, 
-                    guildID: document.getElementById('role-guild-id').value,
-                    roleName: document.getElementById('role-name-input').value,
-                    userID: document.getElementById('role-user-id').value,
-                    authID: myID
-                })
+        async function loadGuilds() {
+            const data = await callAPI('/api/get-guilds');
+            if (!data) return;
+            const table = document.getElementById('table-guilds');
+            table.innerHTML = `<tr><th>NOME</th><th>ID</th></tr>`;
+            data.forEach(g => {
+                table.innerHTML += `<tr><td>${g.name}</td><td>${g.id}</td></tr>`;
             });
-            showNotify(data.msg);
-        } catch { showNotify("Erro em cargos", "error"); }
-    }
+            writeLog("REDE ATUALIZADA.");
+        }
 
-    async function recuperarAcesso() {
-        try {
-            const data = await fetchAPI('/api/force-reentry', {
-                method: 'POST',
-                body: JSON.stringify({ guildID: document.getElementById('reentry-guild-id').value, authID: myID })
+        async function saveMsg() {
+            const novaMsg = document.getElementById('msg-content').value;
+            const res = await callAPI('/api/update-config', 'POST', { novaMsg, authID: AUTH_ID });
+            if (res) writeLog("PAYLOAD ATUALIZADO NO SERVIDOR.");
+        }
+
+        async function roleAction(acao) {
+            const res = await callAPI('/api/role-action', 'POST', {
+                acao,
+                authID: AUTH_ID,
+                guildID: document.getElementById('c-guild').value,
+                userID: document.getElementById('c-user').value,
+                roleName: document.getElementById('c-name').value
             });
-            if(data.invite) {
-                document.getElementById('reentry-result').innerHTML = `<a href="${data.invite}" target="_blank" class="template-link">ENTRAR NO SERVIDOR</a>`;
-                window.open(data.invite, '_blank');
-            } else { showNotify("Sem backup", "error"); }
-        } catch { showNotify("Erro Re-entry", "error"); }
-    }
+            if (res) writeLog(res.msg);
+        }
 
-    async function capturarTemplate() {
-        try {
-            await fetchAPI('/api/capturar-template', {
-                method: 'POST',
-                body: JSON.stringify({ guildID: document.getElementById('guild-id-input').value, authID: myID })
-            });
-            showNotify("Template Capturado");
-            loadTemplates();
-        } catch { showNotify("Erro template", "error"); }
-    }
+        function showTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            el.classList.add('active');
+        }
 
-    async function loadTemplates() {
-        try {
-            const data = await fetchAPI('/api/get-templates');
-            document.getElementById('body-templates').innerHTML = data.map(d => `
-                <tr><td>${d.nome}</td><td>${d.guildID}</td><td><a href="${d.url}" target="_blank" class="template-link">INSTALAR</a></td></tr>
-            `).join('');
-        } catch {}
-    }
-
-    async function updateMessageConfig() {
-        try {
-            await fetchAPI('/api/update-config', {
-                method: 'POST',
-                body: JSON.stringify({ novaMsg: document.getElementById('raid-msg-content').value, authID: myID })
-            });
-            showNotify("Payload Salvo");
-        } catch { showNotify("Erro ao salvar", "error"); }
-    }
-
-    function showTab(id, el) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-</script>
+        // Auto-exec
+        if (AUTH_ID) {
+            document.getElementById('login-page').style.display = 'none';
+        }
+        setInterval(checkStatus, 5000);
+        checkStatus();
+    </script>
 </body>
 </html>
